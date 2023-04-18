@@ -13,12 +13,11 @@
         <div class="heading">
           <h1 class="title"><a href="/">Train 2048</a></h1>
           <div class="scores-container">
-            <div class="score-container">0</div>
-            <div class="best-container">0</div>
+            <div id="score" class="score-container">0</div>
           </div>
         </div>
         <div class="game-intro">
-          <a onclick="addRandom()" class="restart-button">New Game</a>
+          <a onclick="startGame()" class="restart-button">New Game</a>
           <h2 class="subtitle">Play <strong>Train 2048 Game</strong></h2>
           <div class="above-game">
             <p>Join the numbers and get to the <strong>2048 tile!</strong></p>
@@ -54,14 +53,13 @@
           </tr>
         </table>
       </div>
-      <div class="buttons">
+      <!-- <div class="buttons">
         <button onclick="addRandom()">Add</button>
         <button onclick="moveLeft()">Left</button>
         <button onclick="moveRight()">Right</button>
         <button onclick="fallDown()">Fall Down</button>
-
-        <script src="script.js"></script>
-      </div>
+      </div> -->
     </div>
+    <script src="script.js"></script>
   </body>
 </html>

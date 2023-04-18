@@ -4,6 +4,8 @@ let row = 0;
 let col = 0;
 let timerId;
 
+let score = 0;
+
 // This function adds a random number to a cell in the game board.
 function addRandom() {
   // It first clears the interval timer set by the "fallDown" function to avoid conflicts.
@@ -51,6 +53,8 @@ function fallDown() {
     let lastCell = document.getElementById(`${row + 1}-${col}`);
     let resultCellValue = currentCellValue * 2;
     lastCell.innerHTML = resultCellValue;
+    score += parseInt(resultCellValue);
+
     currentCell.innerHTML = "0";
     row++;
     colorCells();
@@ -79,18 +83,25 @@ function multiplyBottomNeighbor(col) {
   let leftCell = document.getElementById(`3-${col - 1}`);
   let rightCell = document.getElementById(`3-${col + 1}`);
 
+  let scoreContainer = document.getElementById("score");
+
   // Get the current cell value and its left and right neighbor cell values
   let currentCellValue = parseInt(currentCell.innerHTML);
   let leftCellValue = parseInt(leftCell.innerHTML);
   let rightCellValue = parseInt(rightCell.innerHTML);
 
+  let scoreContainerValue = parseInt(scoreContainer.innerHTML);
   // If the left and right neighbor cells have the same value and both match the current cell value,
   // multiply the current cell value by 2 and multiply by 2 again, and set the left and right neighbor
   // cells to 0
+
   if (leftCellValue === rightCellValue && currentCellValue === leftCellValue) {
     currentCell.innerHTML = currentCellValue * 2 * 2;
     leftCell.innerHTML = "0";
     rightCell.innerHTML = "0";
+
+    score += parseInt(currentCell.innerHTML);
+
     colorCells();
 
     // If the left neighbor cell matches the current cell value,
@@ -98,6 +109,8 @@ function multiplyBottomNeighbor(col) {
   } else if (leftCellValue === currentCellValue) {
     currentCell.innerHTML = currentCellValue * 2;
     leftCell.innerHTML = "0";
+
+    score += parseInt(currentCell.innerHTML);
     colorCells();
 
     // If the right neighbor cell matches the current cell value,
@@ -105,8 +118,12 @@ function multiplyBottomNeighbor(col) {
   } else if (rightCellValue === currentCellValue) {
     currentCell.innerHTML = currentCellValue * 2;
     rightCell.innerHTML = "0";
+
+    score += parseInt(currentCell.innerHTML);
     colorCells();
   }
+
+  scoreContainer.innerHTML = score;
 }
 
 // This function moves the current cell to the left by one column
@@ -236,13 +253,40 @@ function colorCells() {
   }
 }
 
+document.addEventListener("keydown", function (event) {
+  // if (event.code.startsWith("Arrow")) {
+  switch (event.code) {
+    case "ArrowLeft":
+      moveLeft();
+      break;
+    case "ArrowRight":
+      moveRight();
+      break;
+    case "ArrowDown":
+      fallDown();
+      break;
+    case "Space":
+    case "ArrowUp":
+      addRandom();
+      break;
+
+    default:
+      break;
+  }
+  // }
+});
+
 // initialize table
 for (let i = 0; i < cells.length; i++) {
   cells[i].innerHTML = "0";
   colorCells();
 }
 
+function startGame() {
+  timerId = setInterval(addRandom, 1000);
+}
+
 // add event listeners
-document.getElementById("add-random").addEventListener("click", addRandom);
-document.getElementById("move-left").addEventListener("click", moveLeft);
-document.getElementById("move-right").addEventListener("click", moveRight);
+// document.getElementById("add-random").addEventListener("click", addRandom);
+// document.getElementById("move-left").addEventListener("click", moveLeft);
+// document.getElementById("move-right").addEventListener("click", moveRight);
